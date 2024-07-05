@@ -12,15 +12,30 @@ class Goods
 {
     use InteractWithApplication;
 
-    public function create()
+    public function create($data): array
     {
+        $response = $this->application->getClient()->post('channels/ec/product/add', [
+            'json' => $data
+        ]);
+        return $this->result($response);
     }
 
-    public function update()
+    public function update($data): array
     {
+        $response = $this->application->getClient()->post('channels/ec/product/update', [
+            'json' => $data
+        ]);
+        return $this->result($response);
     }
 
-    public function info()
+    public function info($productId, $dataType = 1): array
     {
+        $response = $this->application->getClient()->post('channels/ec/product/get', [
+            'json' => [
+                'product_id' => $productId,
+                'data_type' => $dataType
+            ]
+        ]);
+        return $this->result($response);
     }
 }

@@ -70,7 +70,7 @@ class Encryptor
         $this->appId = $appId;
         $this->token = $token;
         $this->receiveId = $receiveId;
-        $this->aesKey = base64_decode($aesKey.'=', true) ?: '';
+        $this->aesKey = base64_decode($aesKey . '=', true) ?: '';
     }
 
     public function getToken(): string
@@ -85,7 +85,10 @@ class Encryptor
     public function encrypt(string $plaintext, string $nonce = null, int|string $timestamp = null): string
     {
         try {
-            $plaintext = Pkcs7::padding(random_bytes(16).pack('N', strlen($plaintext)).$plaintext.$this->appId, 32);
+            $plaintext = Pkcs7::padding(
+                random_bytes(16) . pack('N', strlen($plaintext)) . $plaintext . $this->appId,
+                32
+            );
             $ciphertext = base64_encode(
                 openssl_encrypt(
                     $plaintext,
@@ -146,7 +149,42 @@ class Encryptor
         if ($this->receiveId && trim(substr($plaintext, $contentLength + 4)) !== $this->receiveId) {
             throw new RuntimeException('Invalid appId.', self::ERROR_INVALID_APP_ID);
         }
-
         return substr($plaintext, 4, $contentLength);
+    }
+
+
+    public function decryptMessage($encrypted): string
+    {
+        $aesCipher = base64_decode($encrypted);
+        $aesKey = base64_decode($this->aesKey . "=");
+        $aesIV = substr($aesKey, 0, 16);
+        $decrypted = openssl_decrypt(
+            $aesCipher,
+            'AES-256-CBC',
+            $aesKey,
+            OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING,
+            $aesIV
+        );
+        if (empty($decrypted)) {
+            return '';
+        }
+        $result = $this->decode($decrypted);
+        //去除16位随机字符串,网络字节序和AppId
+        if (strlen($result) < 16) {
+            return "";
+        }
+        $content = substr($result, 16, strlen($result));
+        $lenList = unpack("N", substr($content, 0, 4));
+        $jsonLen = $lenList[1];
+        return substr($content, 4, $jsonLen);
+    }
+
+    public function decode($text): string
+    {
+        $pad = ord(substr($text, -1));
+        if ($pad < 1 || $pad > 32) {
+            $pad = 0;
+        }
+        return substr($text, 0, (strlen($text) - $pad));
     }
 }
