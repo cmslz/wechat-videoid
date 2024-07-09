@@ -116,7 +116,7 @@ class AccessToken implements RefreshableAccessTokenInterface
         }
         $this->cache->set($this->getKey(),
             $response['access_token'],
-            intval($response['expires_in']));
+            intval($response['expires_in']))-60;
 
         return $response['access_token'];
     }
