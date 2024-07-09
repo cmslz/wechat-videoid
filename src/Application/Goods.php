@@ -38,4 +38,24 @@ class Goods
         ]);
         return $this->result($response);
     }
+
+    public function listing($productId): array
+    {
+        $response = $this->application->getClient()->post('channels/ec/product/listing', [
+            'json' => [
+                'product_id' => $productId
+            ]
+        ]);
+        return $this->result($response);
+    }
+
+    public function deListing($productId): array
+    {
+        $response = $this->application->getClient()->post('channels/ec/product/delisting', [
+            'json' => [
+                'product_id' => $productId
+            ]
+        ]);
+        return $this->result($response);
+    }
 }
