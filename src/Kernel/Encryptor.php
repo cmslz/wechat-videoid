@@ -70,7 +70,7 @@ class Encryptor
         $this->appId = $appId;
         $this->token = $token;
         $this->receiveId = $receiveId;
-        $this->aesKey = base64_decode($aesKey . '=', true) ?: '';
+        $this->aesKey = $aesKey;
     }
 
     public function getToken(): string
