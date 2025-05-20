@@ -7,6 +7,7 @@
 namespace Cmslz\WechatVideoid;
 
 use Cmslz\WechatVideoid\Application\AfterSale;
+use Cmslz\WechatVideoid\Application\Category;
 use Cmslz\WechatVideoid\Application\Common;
 use Cmslz\WechatVideoid\Application\Delivery;
 use Cmslz\WechatVideoid\Application\Goods;
@@ -28,6 +29,7 @@ use Cmslz\WechatVideoid\Kernel\Exceptions\InvalidClassException;
  * @method static Goods goods(array|ConfigInterface $config)
  * @method static Common common(array|ConfigInterface $config)
  * @method static AfterSale afterSale(array|ConfigInterface $config)
+ * @method static Category category(array|ConfigInterface $config)
  */
 class Factory
 {

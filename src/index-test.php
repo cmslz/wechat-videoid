@@ -20,6 +20,9 @@ $config = [
     'secret' => $info['secret'],
 ];
 $app = \Cmslz\WechatVideoid\Factory::app($config);
+$categoryApp = \Cmslz\WechatVideoid\Factory::category($config);
+echo json_encode($categoryApp->getAvailableSonCategories(524038));
+exit;
 
 # 店铺管理API
 $shopApp = \Cmslz\WechatVideoid\Factory::shop($config);
