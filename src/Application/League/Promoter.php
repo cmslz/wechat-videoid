@@ -59,10 +59,10 @@ class Promoter
      * 获取达人详情信息
      * @link https://developers.weixin.qq.com/doc/channels/API/league/ecleague_getpromoter.html
      */
-    public function get(string $finder_id): array
+    public function get(string $finder_id, bool $findFinder = true): array
     {
         $response = $this->application->getClient()->postJson('channels/ec/league/promoter/get', [
-            'finder_id' => $finder_id,
+            $findFinder ? 'finder_id' : 'promoter_id' => $finder_id,
         ]);
         return $this->result($response);
     }

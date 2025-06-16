@@ -6,6 +6,7 @@
 
 namespace Cmslz\WechatVideoid\Application;
 
+use Cmslz\WechatVideoid\Application\League\Item;
 use Cmslz\WechatVideoid\Application\League\Promoter;
 use Cmslz\WechatVideoid\Kernel\Traits\InteractWithApplication;
 
@@ -27,6 +28,16 @@ class League
     public function promoter(): Promoter
     {
         return new Promoter($this->application);
+    }
+
+    /**
+     * 商品操作
+     * @return Item
+     * Created by xiaobai at 2025/6/16 上午10:59
+     */
+    public function item(): Item
+    {
+        return new Item($this->application);
     }
 
 }

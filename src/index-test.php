@@ -20,8 +20,9 @@ $config = [
     'secret' => $info['secret'],
 ];
 $app = \Cmslz\WechatVideoid\Factory::app($config);
-$categoryApp = \Cmslz\WechatVideoid\Factory::category($config);
-echo json_encode($categoryApp->getAvailableSonCategories(524038));
+$leaguePromoterApp = \Cmslz\WechatVideoid\Factory::league($config)->promoter();
+$result = $leaguePromoterApp->get('spheptFWnesj8fH');
+var_dump($result);
 exit;
 
 # 店铺管理API
