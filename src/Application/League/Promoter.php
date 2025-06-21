@@ -6,6 +6,7 @@
 
 namespace Cmslz\WechatVideoid\Application\League;
 
+use Cmslz\WechatVideoid\Kernel\Exceptions\InvalidArgumentException;
 use Cmslz\WechatVideoid\Kernel\Traits\InteractWithApplication;
 
 /**
@@ -20,24 +21,33 @@ class Promoter
 
     /**
      * 新增达人
-     * @link https://developers.weixin.qq.com/doc/channels/API/league/ecleague_addpromoter.html
+     * @param string $id
+     * @param string $column promoter_id 或者 promoter_id
+     * @return array
+     * @throws InvalidArgumentException
+     * @link https://developers.weixin.qq.com/doc/store/shop/API/league/ecleague_addpromoter.html
      */
-    public function add(string $finder_id): array
+    public function add(string $id, string $column = 'finder_id'): array
     {
         $response = $this->application->getClient()->postJson('channels/ec/league/promoter/add', [
-            'finder_id' => $finder_id,
+            $column => $id,
         ]);
         return $this->result($response);
     }
 
     /**
      * 编辑达人
+     * @param string $id
+     * @param int $type
+     * @param string $column promoter_id 或者 promoter_id
      * https://developers.weixin.qq.com/doc/channels/API/league/ecleague_updpromoter.html
+     * @return array
+     * @throws InvalidArgumentException
      */
-    public function upd(string $finder_id, int $type): array
+    public function upd(string $id, int $type,string $column = 'finder_id'): array
     {
         $response = $this->application->getClient()->postJson('channels/ec/league/promoter/upd', [
-            'finder_id' => $finder_id,
+            $column => $id,
             'type' => $type,
         ]);
         return $this->result($response);
@@ -45,12 +55,16 @@ class Promoter
 
     /**
      * 删除达人
+     * @param string $id
+     * @param string $column promoter_id 或者 promoter_id
+     * @return array
+     * @throws InvalidArgumentException
      * @link https://developers.weixin.qq.com/doc/channels/API/league/ecleague_deletepromoter.html
      */
-    public function delete(string $finder_id): array
+    public function delete(string $id, string $column = 'finder_id'): array
     {
         $response = $this->application->getClient()->postJson('channels/ec/league/promoter/delete', [
-            'finder_id' => $finder_id,
+            $column => $id,
         ]);
         return $this->result($response);
     }
@@ -59,10 +73,10 @@ class Promoter
      * 获取达人详情信息
      * @link https://developers.weixin.qq.com/doc/channels/API/league/ecleague_getpromoter.html
      */
-    public function get(string $finder_id, bool $findFinder = true): array
+    public function get(string $id, string $column = 'finder_id'): array
     {
         $response = $this->application->getClient()->postJson('channels/ec/league/promoter/get', [
-            $findFinder ? 'finder_id' : 'promoter_id' => $finder_id,
+            $column => $id,
         ]);
         return $this->result($response);
     }
@@ -73,7 +87,6 @@ class Promoter
      */
     public function getList(array $params = []): array
     {
-        $params['page_size'] = min($params['page_size'] ?? 10, 200);
         $response = $this->application->getClient()->postJson('channels/ec/league/promoter/list/get', $params);
         return $this->result($response);
     }

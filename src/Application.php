@@ -24,6 +24,12 @@ use Symfony\Component\HttpClient\RetryableHttpClient;
 use Cmslz\WechatVideoid\Kernel\Contracts\Account as AccountInterface;
 use Cmslz\WechatVideoid\Kernel\Contracts\Server as ServerInterface;
 
+/**
+ * @link https://developers.weixin.qq.com/doc/store/shop/API/aftersale/ec_callback/channels_ec_aftersale_update.html
+ * Class Application
+ * @package Cmslz\WechatVideoid
+ * Created by xiaobai at 2025/6/21 下午2:01
+ */
 class Application
 {
     use InteractWithConfig;
